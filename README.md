@@ -264,6 +264,150 @@ public Reserva crearReserva(String idReserva, Cliente cliente, Habitacion habita
 }
 ```
 
+## Utilizacion de Patrones de Diseño
+### Singleton (GestorReservas)
+
+Proposito: Garantizar que solo exista una instancia del gestor central de reservas.
+
+Implementacion:
+```
+// En GestorReservas.java
+public class GestorReservas {
+    private static GestorReservas instancia;  // Instancia única
+    
+    private GestorReservas() {  // Constructor privado
+        reservas = new ArrayList<>();
+        clientes = new ArrayList<>();
+        habitaciones = new ArrayList<>();
+    }
+
+    public static GestorReservas getInstance() {  // Método estático de acceso
+        if (instancia == null) {
+            instancia = new GestorReservas();
+        }
+        return instancia;
+    }
+}
+```
+Uso:
+```
+// En MainApp.java
+GestorReservas gestor = GestorReservas.getInstance(); // Siempre devuelve la misma instancia
+```
+Razón: Centralizar el acceso a los datos (reservas, clientes, habitaciones) y evitar inconsistencia
+
+---
+
+### Factory (HabitacionFactory y ServicioFactory)
+Proposito: Centralizar la creación de objetos complejos.
+
+Ejemplo 1 - Creación de habitaciones:
+```
+// En HabitacionFactory.java
+public Habitacion crearHabitacion(String numero, String tipo, int capacidad, double precioBase) 
+    throws CapacidadHabitacionExcedidaException {
+    
+    if (capacidad <= 0) throw new CapacidadHabitacionExcedidaException("Capacidad inválida");
+    return new Habitacion(numero, tipo, capacidad, precioBase);
+}
+```
+Ejemplo 2 - Creación de servicios con Decorator:
+```
+// En ServicioFactory.java
+public Servicio crearServicio(String tipoServicio, Servicio baseService) 
+    throws ServicioNoDisponibleException {
+    
+    switch (tipoServicio.toLowerCase()) {
+        case "desayuno":
+            return new DesayunoDecorator(baseService);
+        case "spa":
+            return new SpaDecorator(baseService);
+        // ... otros servicios
+    }
+}
+```
+Uso:
+```
+Servicio servicio = factory.crearServicio("spa", new ServicioBasico());
+// Devuelve: ServicioBasico decorado con SpaDecorator
+```
+Razón: Simplificar la creación de objetos que pueden tener configuraciones complejas (como servicios anidados).
+
+---
+
+### Decorator (Servicios Adicionales)
+Propósito: Añadir funcionalidad dinámicamente a los servicios base.
+
+Estructura:
+```
+// Servicio base
+public class ServicioBasico implements Servicio {
+    public double getCosto() { return 0.0; }
+    public String getDescripcion() { return "Estancia base"; }
+}
+
+// Decorator abstracto
+public abstract class ServicioAdicional implements Servicio {
+    protected Servicio wrappee;
+    // ... implementa métodos delegando al wrappee
+}
+
+// Decorator concreto (Desayuno)
+public class DesayunoDecorator extends ServicioAdicional {
+    private static final double COSTO_DESAYUNO = 15.0;
+    
+    @Override
+    public double getCosto() {
+        return wrappee.getCosto() + COSTO_DESAYUNO; // Suma al costo base
+    }
+}
+```
+Uso:
+```
+Servicio miServicio = new DesayunoDecorator(new SpaDecorator(new ServicioBasico()));
+System.out.println(miServicio.getDescripcion()); 
+// Output: "Estancia base, con Acceso a Spa, con Desayuno"
+```
+Razón: Permitir combinar servicios (desayuno, spa, mascota) sin crear clases explosivas como ServicioConDesayunoYSpa.
+
+---
+
+### Observer (NotificadorReservas)
+Propósito: Notificar eventos importantes a múltiples componentes.
+
+Implementación:
+```
+// En NotificadorReservas.java
+public class NotificadorReservas implements Notifier {
+    private List<ClienteObserver> observadores = new ArrayList<>();
+
+    public void agregarObservador(ClienteObserver observer) {
+        observadores.add(observer);
+    }
+
+    public void notificar(String mensaje) {
+        for (ClienteObserver obs : observadores) {
+            obs.update(mensaje); // Notifica a todos los observadores
+        }
+    }
+}
+```
+Observador Concreto (Logger):
+```
+public class LoggerObserver {
+    public void update(String mensaje) {
+        System.out.println("[LOG] " + mensaje); // Ejemplo simplificado
+    }
+}
+```
+Uso:
+```
+// En GestorReservas.java
+notificador.notificar("Reserva cancelada: " + idReserva);
+// Notifica tanto al logger como al cliente afectado
+```
+Razón: Desacoplar el código que genera eventos (ej: cancelar reserva) del que los procesa (ej: enviar email, loggear).
+
 ---
 
 ## Autores

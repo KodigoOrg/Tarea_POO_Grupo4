@@ -430,5 +430,5 @@ Razón: Desacoplar el código que genera eventos (ej: cancelar reserva) del que 
 
 ---
 
-## Autores
+### 👨‍💼 Autores
 Integrantes del grupo 4: Nestor Ivan Fabian Colocho, Mery Acevedo y Alejandro Ernesto Juarez Argumedo.

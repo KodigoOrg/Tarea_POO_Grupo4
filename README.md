@@ -36,7 +36,7 @@ Las dependencias principales se definen en el archivo `pom.xml`:
 
 ### 📲 Instalación
 
-1. Copia la url https de este repositorio.
+1. Copia la url https://github.com/KodigoOrg/Tarea_POO_Grupo4.git de este repositorio.
 2. Clona el repositorio en tu máquina local.
 3. Espera que se carguen puglins y demas archivos para poder ejecutar.
 
@@ -135,13 +135,13 @@ Este código muestra:
 El método leerOpcion() se encarga de validar que la entrada sea un número entero, evitando errores si el usuario ingresa texto.
 
 ### 🧾 Ejemplo de Datos
-
+```DOS
 El sistema carga automáticamente datos de ejemplo al iniciar:
 
 Habitaciones: 101 (Simple), 102 (Doble), 201 (Suite)
 
 Clientes: Mery Acevedo (CL001), Nestor Colocho (CL002)
-
+```
 ### 🔐 Creacion de una Reserva
 
 En el proyecto la creación de una reserva se implementa principalmente en 3 partes clave:

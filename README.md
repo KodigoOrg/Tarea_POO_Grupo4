@@ -49,3 +49,6 @@ Las dependencias principales se definen en el archivo `pom.xml`:
 1. Copia la url https de este repositorio.
 2. Clona el repositorio en tu máquina local.
 3. Espera que se carguen puglins y demas archivos para poder ejecutar.
+
+## Autores
+Integrantes del grupo 4: Nestor Ivan Fabian Colocho, Mery Acevedo y Alejandro Ernesto Juarez Argumedo.

@@ -1,10 +1,12 @@
-# Sistema de Reservas de Hotel - Grupo 4
+# Desarrollo de Aplicación Usando POO y Patrones de Diseño
 
-## Descripción
+## 💻 Sistema de Reservas de Hotel - Grupo 4
+
+### ℹ️ Descripción
 
 Este proyecto es un sistema de gestión de reservas para un hotel. Está diseñado para manejar clientes, habitaciones, reservas y servicios adicionales. Utiliza varios patrones de diseño para estructurar el código de manera eficiente y escalable.
 
-## Características
+### 📜 Características
 
 - Gestión de clientes y habitaciones.
 - Creación y gestión de reservas.
@@ -12,33 +14,25 @@ Este proyecto es un sistema de gestión de reservas para un hotel. Está diseña
 - Procesamiento de pagos.
 - Notificaciones y logging de eventos.
 - Aplicación de políticas de precios.
-
-## Tecnologías Utilizadas
-
-- Java
-- Maven
-- JUnit para pruebas
-- SLF4J para logging
-- Logback para implementación de logging
-
-## Configuración
+  
+### 🛠️ Configuración
 
 El proyecto utiliza Maven para la gestión de dependencias. Asegúrate de tener Maven instalado y configurado en tu entorno de desarrollo.
 
-## Dependencias
+### 🖧 Dependencias
 
 Las dependencias principales se definen en el archivo `pom.xml`:
 
 - JUnit para pruebas unitarias.
 - SLF4J y Logback para el manejo de logs.
 
-## Instalación
+### 📲 Instalación
 
-1. Copia la url https de este repositorio.
+1. Copia la url https://github.com/KodigoOrg/Tarea_POO_Grupo4.git de este repositorio.
 2. Clona el repositorio en tu máquina local.
-3. Espera que se carguen puglins y demas archivos para poder ejecutar.
+3. Espera que se carguen plugins y demas archivos para poder ejecutar.
 
-## Estructura del Proyecto
+### 🪄 Estructura del Proyecto
 
 El proyecto sigue una arquitectura basada en patrones de diseño como:
 
@@ -71,9 +65,9 @@ src/
 └── test/                     # Pruebas unitarias
 ```
 
-## Codigo para el Menu en Consola
+### 🗄️ Codigo para el Menu en Consola
 
-```
+```JAVA
 public void mostrarMenu() {
         int opcion;
         do {
@@ -132,7 +126,7 @@ Este código muestra:
 
 El método leerOpcion() se encarga de validar que la entrada sea un número entero, evitando errores si el usuario ingresa texto.
 
-## Ejemplo de Datos
+### 🧾 Ejemplo de Datos
 
 El sistema carga automáticamente datos de ejemplo al iniciar:
 
@@ -140,12 +134,12 @@ Habitaciones: 101 (Simple), 102 (Doble), 201 (Suite)
 
 Clientes: Mery Acevedo (CL001), Nestor Colocho (CL002)
 
-## Creacion de una Reserva
+### 🔐 Creacion de una Reserva
 
 En el proyecto la creación de una reserva se implementa principalmente en 3 partes clave:
 
-### ConsolaUI.java - Donde se recogen los datos
-```
+### ⚡ConsolaUI.java - Donde se recogen los datos
+```JAVA
 private void crearReserva() {
     System.out.println("\n--- Crear Nueva Reserva ---");
     String idReserva = UUID.randomUUID().toString().substring(0, 8);
@@ -194,9 +188,9 @@ private void crearReserva() {
 }
 ```
 
-### ReservaBuilder.java - Construccion paso a paso
+### ⚡ReservaBuilder.java - Construccion paso a paso
 
-```
+```JAVA
 public class ReservaBuilder {
     private String id;
     private Cliente cliente;
@@ -230,9 +224,9 @@ public class ReservaBuilder {
 }
 ```
 
-### GestorReservas.java - Validacion y Almacenamiento
+### ⚡GestorReservas.java - Validacion y Almacenamiento
 
-```
+```JAVA
 public Reserva crearReserva(String idReserva, Cliente cliente, Habitacion habitacion,
                           LocalDate fechaLlegada, LocalDate fechaSalida,
                           List<Servicio> serviciosAdicionales) 
@@ -263,8 +257,5 @@ public Reserva crearReserva(String idReserva, Cliente cliente, Habitacion habita
     return nuevaReserva;
 }
 ```
-
----
-
-## Autores
+### 👨‍💼 Autores
 Integrantes del grupo 4: Nestor Ivan Fabian Colocho, Mery Acevedo y Alejandro Ernesto Juarez Argumedo.

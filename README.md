@@ -205,7 +205,6 @@ public class ReservaBuilder {
     private LocalDate fechaSalida;
     private List<Servicio> serviciosAdicionales = new ArrayList<>();
 
-    // Métodos para construir cada parte:
     public ReservaBuilder conId(String id) {
         this.id = id;
         return this;
@@ -216,15 +215,36 @@ public class ReservaBuilder {
         return this;
     }
 
-    // ... (métodos similares para otros campos)
+    public ReservaBuilder conHabitacion(Habitacion habitacion) {
+        this.habitacion = habitacion;
+        return this;
+    }
+
+    public ReservaBuilder conFechas(LocalDate fechaLlegada, LocalDate fechaSalida) {
+        this.fechaLlegada = fechaLlegada;
+        this.fechaSalida = fechaSalida;
+        return this;
+    }
+
+    public ReservaBuilder conServicio(Servicio servicio) {
+        this.serviciosAdicionales.add(servicio);
+        return this;
+    }
 
     public Reserva build() throws ReservaInvalidaException {
-        // Validaciones
-        if (id == null || cliente == null || habitacion == null 
-            || fechaLlegada == null || fechaSalida == null) {
-            throw new ReservaInvalidaException("Datos incompletos");
+        if (id == null || id.trim().isEmpty()) {
+            throw new ReservaInvalidaException("El ID de la reserva es obligatorio.");
         }
-        
+        if (cliente == null) {
+            throw new ReservaInvalidaException("El cliente de la reserva es obligatorio.");
+        }
+        if (habitacion == null) {
+            throw new ReservaInvalidaException("La habitación de la reserva es obligatoria.");
+        }
+        if (fechaLlegada == null || fechaSalida == null || fechaLlegada.isAfter(fechaSalida)) {
+            throw new ReservaInvalidaException("Las fechas de llegada y salida son inválidas.");
+        }
+
         return new Reserva(id, cliente, habitacion, fechaLlegada, fechaSalida, serviciosAdicionales);
     }
 }

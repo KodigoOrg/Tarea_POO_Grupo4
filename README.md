@@ -286,8 +286,8 @@ public Reserva crearReserva(String idReserva, Cliente cliente, Habitacion habita
 }
 ```
 
-## Utilizacion de Patrones de Diseño
-### Singleton (GestorReservas)
+### Utilizacion de Patrones de Diseño
+#### Singleton (GestorReservas)
 
 Proposito: Garantizar que solo exista una instancia del gestor central de reservas.
 
@@ -320,7 +320,7 @@ Razón: Centralizar el acceso a los datos (reservas, clientes, habitaciones) y e
 
 ---
 
-### Factory (HabitacionFactory y ServicioFactory)
+#### Factory (HabitacionFactory y ServicioFactory)
 Proposito: Centralizar la creación de objetos complejos.
 
 Ejemplo 1 - Creación de habitaciones:
@@ -357,7 +357,7 @@ Razón: Simplificar la creación de objetos que pueden tener configuraciones com
 
 ---
 
-### Decorator (Servicios Adicionales)
+#### Decorator (Servicios Adicionales)
 Propósito: Añadir funcionalidad dinámicamente a los servicios base.
 
 Estructura:
@@ -394,7 +394,7 @@ Razón: Permitir combinar servicios (desayuno, spa, mascota) sin crear clases ex
 
 ---
 
-### Observer (NotificadorReservas)
+#### Observer (NotificadorReservas)
 Propósito: Notificar eventos importantes a múltiples componentes.
 
 Implementación:

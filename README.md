@@ -6,7 +6,7 @@
 
 Este proyecto es un sistema de gestión de reservas para un hotel. Está diseñado para manejar clientes, habitaciones, reservas y servicios adicionales. Utiliza varios patrones de diseño para estructurar el código de manera eficiente y escalable.
 
-## Características
+### 📜 Características
 
 - Gestión de clientes y habitaciones.
 - Creación y gestión de reservas.
@@ -15,7 +15,7 @@ Este proyecto es un sistema de gestión de reservas para un hotel. Está diseña
 - Notificaciones y logging de eventos.
 - Aplicación de políticas de precios.
 
-## Tecnologías Utilizadas
+### 👨‍💻 Tecnologías Utilizadas
 
 - Java
 - Maven
@@ -23,24 +23,24 @@ Este proyecto es un sistema de gestión de reservas para un hotel. Está diseña
 - SLF4J para logging
 - Logback para implementación de logging
 
-## Configuración
+### 🛠️ Configuración
 
 El proyecto utiliza Maven para la gestión de dependencias. Asegúrate de tener Maven instalado y configurado en tu entorno de desarrollo.
 
-## Dependencias
+### 🖧 Dependencias
 
 Las dependencias principales se definen en el archivo `pom.xml`:
 
 - JUnit para pruebas unitarias.
 - SLF4J y Logback para el manejo de logs.
 
-## Instalación
+### 📲 Instalación
 
 1. Copia la url https de este repositorio.
 2. Clona el repositorio en tu máquina local.
 3. Espera que se carguen puglins y demas archivos para poder ejecutar.
 
-## Estructura del Proyecto
+### 🪄 Estructura del Proyecto
 
 El proyecto sigue una arquitectura basada en patrones de diseño como:
 
@@ -73,9 +73,9 @@ src/
 └── test/                     # Pruebas unitarias
 ```
 
-## Codigo para el Menu en Consola
+### 🗄️ Codigo para el Menu en Consola
 
-```
+```JAVA
 public void mostrarMenu() {
         int opcion;
         do {
@@ -134,7 +134,7 @@ Este código muestra:
 
 El método leerOpcion() se encarga de validar que la entrada sea un número entero, evitando errores si el usuario ingresa texto.
 
-## Ejemplo de Datos
+### 🧾 Ejemplo de Datos
 
 El sistema carga automáticamente datos de ejemplo al iniciar:
 
@@ -142,12 +142,12 @@ Habitaciones: 101 (Simple), 102 (Doble), 201 (Suite)
 
 Clientes: Mery Acevedo (CL001), Nestor Colocho (CL002)
 
-## Creacion de una Reserva
+### 🔐 Creacion de una Reserva
 
 En el proyecto la creación de una reserva se implementa principalmente en 3 partes clave:
 
-### ConsolaUI.java - Donde se recogen los datos
-```
+### ⚡ConsolaUI.java - Donde se recogen los datos
+```JAVA
 private void crearReserva() {
     System.out.println("\n--- Crear Nueva Reserva ---");
     String idReserva = UUID.randomUUID().toString().substring(0, 8);
@@ -196,9 +196,9 @@ private void crearReserva() {
 }
 ```
 
-### ReservaBuilder.java - Construccion paso a paso
+### ⚡ReservaBuilder.java - Construccion paso a paso
 
-```
+```JAVA
 public class ReservaBuilder {
     private String id;
     private Cliente cliente;
@@ -252,9 +252,9 @@ public class ReservaBuilder {
 }
 ```
 
-### GestorReservas.java - Validacion y Almacenamiento
+### ⚡GestorReservas.java - Validacion y Almacenamiento
 
-```
+```JAVA
 public Reserva crearReserva(String idReserva, Cliente cliente, Habitacion habitacion,
                           LocalDate fechaLlegada, LocalDate fechaSalida,
                           List<Servicio> serviciosAdicionales) 
@@ -292,7 +292,7 @@ public Reserva crearReserva(String idReserva, Cliente cliente, Habitacion habita
 Proposito: Garantizar que solo exista una instancia del gestor central de reservas.
 
 Implementacion:
-```
+```JAVA
 // En GestorReservas.java
 public class GestorReservas {
     private static GestorReservas instancia;  // Instancia única
@@ -312,7 +312,7 @@ public class GestorReservas {
 }
 ```
 Uso:
-```
+```JAVA
 // En MainApp.java
 GestorReservas gestor = GestorReservas.getInstance(); // Siempre devuelve la misma instancia
 ```
@@ -324,7 +324,7 @@ Razón: Centralizar el acceso a los datos (reservas, clientes, habitaciones) y e
 Proposito: Centralizar la creación de objetos complejos.
 
 Ejemplo 1 - Creación de habitaciones:
-```
+```JAVA
 // En HabitacionFactory.java
 public Habitacion crearHabitacion(String numero, String tipo, int capacidad, double precioBase) 
     throws CapacidadHabitacionExcedidaException {
@@ -334,7 +334,7 @@ public Habitacion crearHabitacion(String numero, String tipo, int capacidad, dou
 }
 ```
 Ejemplo 2 - Creación de servicios con Decorator:
-```
+```JAVA
 // En ServicioFactory.java
 public Servicio crearServicio(String tipoServicio, Servicio baseService) 
     throws ServicioNoDisponibleException {
@@ -349,7 +349,7 @@ public Servicio crearServicio(String tipoServicio, Servicio baseService)
 }
 ```
 Uso:
-```
+```JAVA
 Servicio servicio = factory.crearServicio("spa", new ServicioBasico());
 // Devuelve: ServicioBasico decorado con SpaDecorator
 ```
@@ -361,7 +361,7 @@ Razón: Simplificar la creación de objetos que pueden tener configuraciones com
 Propósito: Añadir funcionalidad dinámicamente a los servicios base.
 
 Estructura:
-```
+```JAVA
 // Servicio base
 public class ServicioBasico implements Servicio {
     public double getCosto() { return 0.0; }
@@ -385,7 +385,7 @@ public class DesayunoDecorator extends ServicioAdicional {
 }
 ```
 Uso:
-```
+```JAVA
 Servicio miServicio = new DesayunoDecorator(new SpaDecorator(new ServicioBasico()));
 System.out.println(miServicio.getDescripcion()); 
 // Output: "Estancia base, con Acceso a Spa, con Desayuno"
@@ -398,7 +398,7 @@ Razón: Permitir combinar servicios (desayuno, spa, mascota) sin crear clases ex
 Propósito: Notificar eventos importantes a múltiples componentes.
 
 Implementación:
-```
+```JAVA
 // En NotificadorReservas.java
 public class NotificadorReservas implements Notifier {
     private List<ClienteObserver> observadores = new ArrayList<>();
@@ -415,7 +415,7 @@ public class NotificadorReservas implements Notifier {
 }
 ```
 Observador Concreto (Logger):
-```
+```JAVA
 public class LoggerObserver {
     public void update(String mensaje) {
         System.out.println("[LOG] " + mensaje); // Ejemplo simplificado
@@ -423,7 +423,7 @@ public class LoggerObserver {
 }
 ```
 Uso:
-```
+```JAVA
 // En GestorReservas.java
 notificador.notificar("Reserva cancelada: " + idReserva);
 // Notifica tanto al logger como al cliente afectado

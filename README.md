@@ -1,6 +1,8 @@
-# Sistema de Reservas de Hotel - Grupo 4
+# Desarrollo de Aplicación Usando POO y Patrones de Diseño
 
-## Descripción
+## 💻 Sistema de Reservas de Hotel - Grupo 4
+
+### ℹ️ Descripción
 
 Este proyecto es un sistema de gestión de reservas para un hotel. Está diseñado para manejar clientes, habitaciones, reservas y servicios adicionales. Utiliza varios patrones de diseño para estructurar el código de manera eficiente y escalable.
 

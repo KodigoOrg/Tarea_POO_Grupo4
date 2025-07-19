@@ -140,6 +140,130 @@ Habitaciones: 101 (Simple), 102 (Doble), 201 (Suite)
 
 Clientes: Mery Acevedo (CL001), Nestor Colocho (CL002)
 
+## Creacion de una Reserva
+
+En el proyecto la creación de una reserva se implementa principalmente en 3 partes clave:
+
+### ConsolaUI.java - Donde se recogen los datos
+```
+private void crearReserva() {
+    System.out.println("\n--- Crear Nueva Reserva ---");
+    String idReserva = UUID.randomUUID().toString().substring(0, 8);
+    System.out.println("ID de la reserva generada: " + idReserva);
+
+    // 1. Selección de cliente
+    String idCliente = leerCadena("ID del Cliente: ");
+    Cliente cliente = gestor.obtenerCliente(idCliente).orElse(null);
+    if (cliente == null) {
+        System.out.println("Cliente no encontrado.");
+        return;
+    }
+
+    // 2. Selección de habitación
+    String numeroHabitacion = leerCadena("Número de Habitación: ");
+    Habitacion habitacion = gestor.obtenerHabitacion(numeroHabitacion).orElse(null);
+    if (habitacion == null) {
+        System.out.println("Habitación no encontrada.");
+        return;
+    }
+
+    // 3. Fechas
+    LocalDate fechaLlegada = leerFecha("Fecha de Llegada");
+    LocalDate fechaSalida = leerFecha("Fecha de Salida");
+
+    // 4. Servicios adicionales (usando Builder)
+    ReservaBuilder builder = new ReservaBuilder()
+                            .conId(idReserva)
+                            .conCliente(cliente)
+                            .conHabitacion(habitacion)
+                            .conFechas(fechaLlegada, fechaSalida);
+    
+    agregarServiciosABuilder(builder); // Método para añadir decoradores
+
+    try {
+        // 5. Creación final con el Gestor
+        Reserva nuevaReserva = builder.build();
+        gestor.crearReserva(nuevaReserva.getId(), cliente, habitacion, 
+                           fechaLlegada, fechaSalida, 
+                           nuevaReserva.getServiciosAdicionales());
+        
+        System.out.println("Reserva creada exitosamente!");
+    } catch (ReservaInvalidaException | HabitacionNoDisponibleException e) {
+        System.err.println("Error al crear reserva: " + e.getMessage());
+    }
+}
+```
+
+### ReservaBuilder.java - Construccion paso a paso
+
+```
+public class ReservaBuilder {
+    private String id;
+    private Cliente cliente;
+    private Habitacion habitacion;
+    private LocalDate fechaLlegada;
+    private LocalDate fechaSalida;
+    private List<Servicio> serviciosAdicionales = new ArrayList<>();
+
+    // Métodos para construir cada parte:
+    public ReservaBuilder conId(String id) {
+        this.id = id;
+        return this;
+    }
+
+    public ReservaBuilder conCliente(Cliente cliente) {
+        this.cliente = cliente;
+        return this;
+    }
+
+    // ... (métodos similares para otros campos)
+
+    public Reserva build() throws ReservaInvalidaException {
+        // Validaciones
+        if (id == null || cliente == null || habitacion == null 
+            || fechaLlegada == null || fechaSalida == null) {
+            throw new ReservaInvalidaException("Datos incompletos");
+        }
+        
+        return new Reserva(id, cliente, habitacion, fechaLlegada, fechaSalida, serviciosAdicionales);
+    }
+}
+```
+
+### GestorReservas.java - Validacion y Almacenamiento
+
+```
+public Reserva crearReserva(String idReserva, Cliente cliente, Habitacion habitacion,
+                          LocalDate fechaLlegada, LocalDate fechaSalida,
+                          List<Servicio> serviciosAdicionales) 
+        throws ReservaInvalidaException, HabitacionNoDisponibleException {
+
+    // Validaciones
+    if (idReserva == null || idReserva.trim().isEmpty()) {
+        throw new ReservaInvalidaException("ID de reserva inválido");
+    }
+
+    // Verifica disponibilidad de habitación
+    boolean isOverlapping = reservas.stream()
+        .filter(r -> r.getHabitacion().equals(habitacion))
+        .anyMatch(r -> fechaLlegada.isBefore(r.getFechaSalida()) 
+                    && fechaSalida.isAfter(r.getFechaLlegada()));
+
+    if (isOverlapping) {
+        throw new HabitacionNoDisponibleException("Habitación ocupada en esas fechas");
+    }
+
+    // Crea y almacena la reserva
+    Reserva nuevaReserva = new Reserva(idReserva, cliente, habitacion, 
+                                     fechaLlegada, fechaSalida, serviciosAdicionales);
+    reservas.add(nuevaReserva);
+    habitacion.setDisponible(false);
+    
+    notificador.notificar("Nueva reserva creada: " + idReserva);
+    return nuevaReserva;
+}
+```
+
 ---
 
 ## Autores

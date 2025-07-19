@@ -258,4 +258,4 @@ public Reserva crearReserva(String idReserva, Cliente cliente, Habitacion habita
 }
 ```
 ### 👨‍💼 Autores
-Integrantes del grupo 4: Nestor Ivan Fabian Colocho, Mery Acevedo y Alejandro Ernesto Juarez Argumedo.
+Integrantes del grupo 4: 1- Nestor Ivan Fabian Colocho, 2- Mery Acevedo, 3- Alejandro Ernesto Juarez Argumedo.
